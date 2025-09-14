@@ -14,7 +14,7 @@ function App() {
 
   const fetchPoints = async () => {
     try {
-      const response = await fetch(process.env.REACT_APP_API_URL || `http://localhost:5001/api/points?window=${timeWindow}`);
+      const response = await fetch(`http://localhost:5001/api/points?window=${timeWindow}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
