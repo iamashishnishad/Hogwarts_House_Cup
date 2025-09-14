@@ -1,5 +1,4 @@
-
-# app.py
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import sqlite3
@@ -7,7 +6,6 @@ import json
 from datetime import datetime, timedelta, timezone
 import threading
 from data_gen import record_stream
-import os
 
 app = Flask(__name__)
 # Enable CORS for all routes and origins
@@ -145,5 +143,10 @@ def debug_db():
         return jsonify({"error": str(e)})
 
 if __name__ == '__main__':
-    print("Starting Flask server...")
-    app.run(debug=True, port=5001, host='0.0.0.0')
+    # Get port from environment variable or default to 5001
+    port = int(os.environ.get("PORT", 5001))
+    # Never run in debug mode in production
+    debug = os.environ.get("FLASK_ENV", "development") == "development"
+    
+    print(f"Starting Flask server on port {port}...")
+    app.run(debug=debug, host='0.0.0.0', port=port)
